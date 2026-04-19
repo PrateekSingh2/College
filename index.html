@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Banking Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen font-sans selection:bg-blue-500 selection:text-white">
+
+    <div class="max-w-6xl mx-auto p-6">
+        <header class="flex justify-between items-center py-6 mb-8 border-b border-gray-800">
+            <div>
+                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+                    Vault OS
+                </h1>
+                <p class="text-gray-400 text-sm mt-1">Enterprise Banking Infrastructure</p>
+            </div>
+            <div id="statusIndicator" class="flex items-center space-x-2 text-sm text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20">
+                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span>System Online</span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="space-y-6 lg:col-span-1">
+                
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Open Account</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Account Holder Name</label>
+                            <input type="text" id="newName" placeholder="e.g. Name" 
+                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <button onclick="createAccount()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-2 rounded-lg transition-all">
+                            Create Account
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-white">Transactions</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Source Account Number</label>
+                            <input type="number" id="txAccNum" placeholder="1001" 
+                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Amount (Rs.)</label>
+                            <input type="number" id="txAmount" placeholder="500.00" 
+                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <div class="flex space-x-3">
+                            <button onclick="handleTransaction('deposit')" class="flex-1 bg-green-600/20 text-green-400 hover:bg-green-600/30 border border-green-600/50 font-medium py-2 rounded-lg transition-all">
+                                Deposit
+                            </button>
+                            <button onclick="handleTransaction('withdraw')" class="flex-1 bg-red-600/20 text-red-400 hover:bg-red-600/30 border border-red-600/50 font-medium py-2 rounded-lg transition-all">
+                                Withdraw
+                            </button>
+                        </div>
+                        <hr class="border-gray-700 my-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Destination A/C (For Transfer)</label>
+                            <input type="number" id="destAccNum" placeholder="1002" 
+                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <button onclick="handleTransaction('transfer')" class="w-full bg-purple-600/20 text-purple-400 hover:bg-purple-600/30 border border-purple-600/50 font-medium py-2 rounded-lg transition-all">
+                            Transfer Funds
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-xl flex items-end space-x-4">
+                    <div class="flex-1">
+                        <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Lookup Account</label>
+                        <input type="number" id="searchAccNum" placeholder="Enter Account Number..." 
+                            class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                    </div>
+                    <button onclick="fetchAccountDetails()" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-all border border-gray-600">
+                        Search
+                    </button>
+                </div>
+
+                <div id="displayArea" class="bg-gray-900 border border-gray-800 rounded-xl p-8 min-h-[300px] flex flex-col justify-center items-center text-center">
+                    <svg class="w-16 h-16 text-gray-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    <p class="text-gray-500">No account loaded. Search or create an account to view details.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-800 border border-gray-700 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center space-x-3 pointer-events-none">
+        <span id="toastIcon"></span>
+        <span id="toastMsg" class="text-sm font-medium"></span>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+            toastMsg.innerText = message;
+            toastIcon.innerHTML = type === 'success' ? '✅' : '❌';
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
+
+        async function createAccount() {
+            const name = document.getElementById('newName').value;
+            if (!name) return showToast('Please enter a name', 'error');
+
+            try {
+                const res = await fetch(`${API_BASE}/account`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name })
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    showToast(`Account created! A/C No: ${data.accountNumber}`);
+                    document.getElementById('newName').value = '';
+                    document.getElementById('searchAccNum').value = data.accountNumber;
+                    document.getElementById('txAccNum').value = data.accountNumber;
+                    fetchAccountDetails();
+                }
+            } catch (err) {
+                showToast('Failed to connect', 'error');
+            }
+        }
+
+        async function fetchAccountDetails() {
+            const accNum = document.getElementById('searchAccNum').value;
+            if (!accNum) return;
+
+            const display = document.getElementById('displayArea');
+            try {
+                const [detailsRes, statementRes] = await Promise.all([
+                    fetch(`${API_BASE}/account/${accNum}`),
+                    fetch(`${API_BASE}/account/${accNum}/statement`)
+                ]);
+
+                if (!detailsRes.ok) {
+                    display.innerHTML = `<p class="text-red-400">Account ${accNum} not found.</p>`;
+                    return;
+                }
+
+                const data = await detailsRes.json();
+                const statementData = await statementRes.json();
+                
+                let statementHTML = '';
+                if (statementData.transactions && statementData.transactions.length > 0) {
+                    statementHTML = statementData.transactions.map(tx => `
+                        <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
+                            <td class="px-4 py-3">${tx.type}</td>
+                            <td class="px-4 py-3 font-mono text-${tx.type.includes('Deposit') ? 'green' : 'red'}-400">
+                                ${tx.amount.toFixed(2)}
+                            </td>
+                            <td class="px-4 py-3 font-mono text-gray-300">${tx.balanceAfter.toFixed(2)}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    statementHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-gray-500">No transactions found.</td></tr>`;
+                }
+
+                display.innerHTML = `
+                    <div class="w-full text-left bg-gray-800/50 rounded-xl p-8 border border-gray-700/50">
+                        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Account Holder</p>
+                        <h3 class="text-3xl font-bold text-white mb-6">${data.name}</h3>
+                        
+                        <div class="grid grid-cols-2 gap-6 mb-8">
+                            <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+                                <p class="text-xs text-gray-500 uppercase">Account Number</p>
+                                <p class="text-xl font-mono text-blue-400 mt-1">${data.accountNumber}</p>
+                            </div>
+                            <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
+                                <p class="text-xs text-gray-500 uppercase">Available Balance</p>
+                                <p class="text-xl font-mono text-green-400 mt-1">Rs. ${data.balance.toFixed(2)}</p>
+                            </div>
+                        </div>
+
+                        <h4 class="text-lg font-semibold text-white mb-4">Mini Statement</h4>
+                        <div class="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
+                            <table class="w-full text-left text-sm text-gray-400">
+                                <thead class="bg-gray-800/80 text-xs uppercase border-b border-gray-700">
+                                    <tr>
+                                        <th class="px-4 py-3">Transaction Type</th>
+                                        <th class="px-4 py-3">Amount (Rs.)</th>
+                                        <th class="px-4 py-3">Balance After</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${statementHTML}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                showToast('Failed to fetch details', 'error');
+            }
+        }
+
+        async function handleTransaction(type) {
+            const accNum = document.getElementById('txAccNum').value;
+            const amount = parseFloat(document.getElementById('txAmount').value);
+            const bodyData = { amount };
+
+            if (!accNum || !amount || amount <= 0) return showToast('Invalid details', 'error');
+
+            if (type === 'transfer') {
+                const destNum = document.getElementById('destAccNum').value;
+                if (!destNum) return showToast('Enter destination account', 'error');
+                bodyData.destination = parseInt(destNum);
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/account/${accNum}/${type}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bodyData)
+                });
+
+                if (res.ok) {
+                    showToast(`${type.charAt(0).toUpperCase() + type.slice(1)} successful!`);
+                    document.getElementById('txAmount').value = '';
+                    if (type === 'transfer') document.getElementById('destAccNum').value = '';
+                    
+                    if (document.getElementById('searchAccNum').value === accNum) {
+                        fetchAccountDetails();
+                    }
+                } else {
+                    showToast(`${type} failed. Check balance or target A/C.`, 'error');
+                }
+            } catch (err) {
+                showToast('Connection error', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
