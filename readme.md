@@ -79,6 +79,7 @@ MicroProject/
 ├── crow_all.h               # The Crow web framework header
 ├── main.cpp                 # The C++ backend API code
 └── index.html               # The frontend dashboard UI
+```
 
 <hr>
 
