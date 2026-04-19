@@ -1,174 +1,162 @@
-Vault OS - Core Banking MicroProject
+<div align="center">
+  <h1>🏦 Vault OS</h1>
+  <p><b>Enterprise-Grade Core Banking Microservice</b></p>
+  
+  <a href="https://crowcpp.org/"><img src="https://img.shields.io/badge/C%2B%2B17-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++17"></a>
+  <a href="https://crowcpp.org/"><img src="https://img.shields.io/badge/Crow-1A1A1A?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="Crow Framework"></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+</div>
 
-Vault OS is a high-performance, full-stack core banking microservice. The backend is powered by modern C++17 using the Crow microframework and ASIO for asynchronous networking. The frontend is a sleek, dark-mode single-page application (SPA) built with HTML, JavaScript, and Tailwind CSS.
+<br>
 
-Features
+<p align="center">
+  Vault OS is a high-performance, full-stack core banking microservice. The backend is powered by modern C++17 using the Crow microframework and ASIO for asynchronous networking. The frontend is a sleek, dark-mode single-page application (SPA) built with HTML, JavaScript, and Tailwind CSS.
+</p>
 
-Account Management: Create accounts, look up details, and view real-time balances.
+<hr>
 
-Transactions: Process deposits, withdrawals, and inter-account funds transfers safely.
+## ✨ Key Features
 
-Mini Statements: View the 5 most recent transactions with running balance history.
+<ul>
+  <li><b>Account Management:</b> Create accounts, look up details, and view real-time balances.</li>
+  <li><b>Secure Transactions:</b> Process deposits, withdrawals, and inter-account funds transfers safely.</li>
+  <li><b>Mini Statements:</b> View the 5 most recent transactions with running balance history.</li>
+  <li><b>Thread-Safe Backend:</b> Utilizes <code>std::mutex</code> to ensure safe concurrent API requests.</li>
+  <li><b>SaaS-Style UI:</b> Responsive, glassmorphic frontend utilizing Tailwind CSS.</li>
+</ul>
 
-Thread-Safe Backend: Uses std::mutex to ensure safe concurrent API requests.
+<hr>
 
-SaaS-Style UI: Responsive, glassmorphic frontend utilizing Tailwind CSS.
+## 🛠️ Complete Setup Guide (Windows)
 
-🛠️ Complete Setup Guide (Windows)
+<p>This project requires a modern 64-bit C++ environment to handle networking and threading properly.</p>
 
-This project requires a modern 64-bit C++ environment to handle networking and threading properly.
+<details>
+  <summary><b>1. Install MinGW-w64 from WinLibs</b> <i>(Click to expand)</i></summary>
+  <blockquote>
+    The standard MinGW is obsolete and 32-bit. We use WinLibs for an up-to-date 64-bit compiler.
+  </blockquote>
+  <ol>
+    <li>Go to <a href="https://winlibs.com/">WinLibs.com</a>.</li>
+    <li>Scroll down to the <b>Release versions</b> section.</li>
+    <li>Download the <b>Zip archive</b> for <code>GCC (x.x.x) + MinGW-w64 - UCRT runtime</code>.</li>
+    <li>Extract the downloaded zip file.</li>
+    <li>Move the extracted <code>mingw64</code> folder directly into your <code>C:</code> drive. <i>(Path should be <code>C:\mingw64\bin\g++.exe</code>)</i>.</li>
+  </ol>
+</details>
 
-1. Install MinGW-w64 from WinLibs
+<details>
+  <summary><b>2. Configure Environment Variables</b> <i>(Click to expand)</i></summary>
+  <ol>
+    <li>Press the <b>Windows Key</b>, type <code>Environment Variables</code>, and hit Enter.</li>
+    <li>Click the <b>Environment Variables...</b> button.</li>
+    <li>In the bottom pane (System variables), find the variable named <b>Path</b>, select it, and click <b>Edit</b>.</li>
+    <li>Click <b>New</b> and paste the exact path to the bin folder: <code>C:\mingw64\bin</code></li>
+    <li><i>(Optional)</i> If you see any older MinGW paths (e.g., <code>C:\MinGW\bin</code>), select and delete them.</li>
+    <li>Click <b>OK</b> on all windows. <b>Restart your terminal or VS Code</b>.</li>
+  </ol>
+</details>
 
-The standard MinGW is obsolete and 32-bit. We use WinLibs for an up-to-date 64-bit compiler.
+<details>
+  <summary><b>3. Install ASIO & Crow Dependencies</b> <i>(Click to expand)</i></summary>
+  <ol>
+    <li><b>ASIO:</b> Download the source zip from <a href="https://github.com/chriskohlhoff/asio/releases">ASIO Releases</a>. Extract it, and copy the <code>include</code> folder into your project directory.</li>
+    <li><b>Crow:</b> Download <code>crow_all.h</code> from <a href="https://github.com/CrowCpp/Crow/releases">Crow Releases</a> and place it in your project root.</li>
+  </ol>
+</details>
 
-Go to WinLibs.com.
+### 📁 Project Folder Structure
 
-Scroll down to the Release versions section.
+Ensure your directory matches this exact layout before compiling:
 
-Download the Zip archive for GCC (x.x.x) + MinGW-w64 - UCRT runtime (choose the 64-bit Windows version without LLVM/Clang unless you prefer it).
-
-Extract the downloaded zip file.
-
-Move the extracted mingw64 folder directly into your C: drive.
-
-The path should look exactly like this: C:\mingw64\bin\g++.exe
-
-2. Configure Environment Variables
-
-You need to tell Windows where to find your new compiler so you can run it from any terminal.
-
-Press the Windows Key, type Environment Variables, and hit Enter.
-
-Click the Environment Variables... button.
-
-In the bottom pane (System variables), find the variable named Path, select it, and click Edit.
-
-Click New and paste the exact path to the bin folder: C:\mingw64\bin
-
-(Optional but recommended) If you see any older MinGW paths (e.g., C:\MinGW\bin), select and delete them to prevent conflicts.
-
-Click OK on all windows. Restart your terminal or VS Code to apply the changes.
-
-3. Project Folder Structure
-
-Create a dedicated folder for your project (e.g., E:\C++\MicroProject). The final structure must look exactly like this:
-
+```text
 MicroProject/
 │
-├── include/                 # (We will add this in the ASIO step)
+├── include/                 # (Copied from ASIO download)
 │   ├── asio.hpp
 │   └── asio/
 │
 ├── crow_all.h               # The Crow web framework header
-├── main.cpp                 # The C++ backend code
-└── index.html               # The frontend dashboard
+├── main.cpp                 # The C++ backend API code
+└── index.html               # The frontend dashboard UI
 
-
-4. Install ASIO (Networking Library)
-
-Crow requires ASIO for high-performance HTTP networking.
-
-Go to the ASIO GitHub Releases.
-
-Download the latest source code zip (e.g., asio-1.30.2.zip).
-
-Extract the zip file and open the extracted folder.
-
-Locate the include folder inside it.
-
-Copy that entire include folder and paste it directly into your MicroProject folder.
-
-5. Install Crow (Web Framework)
-
-Go to the Crow GitHub Releases.
-
-Download the single-header file: crow_all.h.
-
-Place crow_all.h directly in the root of your MicroProject folder alongside main.cpp.
+<hr>
 
 🚀 Running the Project
-
 Step 1: Compile the Backend
-
-Open your terminal (inside the MicroProject directory) and run the following command.
-
-Note: We must explicitly link the Windows socket libraries (ws2_32, wsock32) and enforce the C++17 standard for Crow to compile successfully.
-
-C:\mingw64\bin\g++.exe main.cpp -o backend -I ./include -lws2_32 -lwsock32 -std=c++17
+Open your terminal inside the MicroProject directory and run the following command.
 
 
-(If you properly configured your Environment Variables, you can just use g++ instead of C:\mingw64\bin\g++.exe)
+<i><b>Note:</b> We explicitly link the Windows socket libraries (ws2_32, wsock32) and enforce the C++17 standard.</i>
+
+Bash
+g++ main.cpp -o backend -I ./include -lws2_32 -lwsock32 -std=c++17
+(If g++ fails, use the absolute path: C:\mingw64\bin\g++.exe main.cpp ...)
 
 Step 2: Start the Server
+Run the generated executable to start listening for requests:
 
-Run the generated executable:
-
+Bash
 ./backend.exe
-
-
-You should see the message: 🚀 Core Banking API running on http://localhost:8080. Leave this terminal open.
+<p>✅ You should see: <code>🚀 Core Banking API running on http://localhost:8080</code>. Keep this terminal open.</p>
 
 Step 3: Launch the Frontend
+Simply double-click the index.html file to open it in your web browser. No local frontend server is required; it fetches styling directly from the Tailwind CDN and communicates with your C++ backend locally.
 
-Simply double-click the index.html file to open it in your web browser (Chrome, Edge, Brave, etc.). No local frontend server is required since it fetches styling directly from the Tailwind CDN and communicates with your C++ backend via localhost.
+<hr>
 
 📡 API Endpoints Reference
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+<th>Payload Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>POST</kbd></td>
+<td><code>/api/account</code></td>
+<td>Creates a new bank account</td>
+<td><code>{"name": "string"}</code></td>
+</tr>
+<tr>
+<td><kbd>GET</kbd></td>
+<td><code>/api/account/&lt;id&gt;</code></td>
+<td>Fetches account details/balance</td>
+<td><i>None</i></td>
+</tr>
+<tr>
+<td><kbd>GET</kbd></td>
+<td><code>/api/account/&lt;id&gt;/statement</code></td>
+<td>Fetches recent transactions</td>
+<td><i>None</i></td>
+</tr>
+<tr>
+<td><kbd>POST</kbd></td>
+<td><code>/api/account/&lt;id&gt;/deposit</code></td>
+<td>Deposits funds into account</td>
+<td><code>{"amount": float}</code></td>
+</tr>
+<tr>
+<td><kbd>POST</kbd></td>
+<td><code>/api/account/&lt;id&gt;/withdraw</code></td>
+<td>Withdraws funds from account</td>
+<td><code>{"amount": float}</code></td>
+</tr>
+<tr>
+<td><kbd>POST</kbd></td>
+<td><code>/api/account/&lt;id&gt;/transfer</code></td>
+<td>Transfers funds to another A/C</td>
+<td><code>{"amount": float, "destination": int}</code></td>
+</tr>
+</tbody>
+</table>
 
-Method
+<hr>
 
-Endpoint
-
-Description
-
-Payload Body
-
-POST
-
-/api/account
-
-Creates a new bank account
-
-{"name": "string"}
-
-GET
-
-/api/account/<id>
-
-Fetches account details/balance
-
-None
-
-GET
-
-/api/account/<id>/statement
-
-Fetches recent transactions
-
-None
-
-POST
-
-/api/account/<id>/deposit
-
-Deposits funds
-
-{"amount": float}
-
-POST
-
-/api/account/<id>/withdraw
-
-Withdraws funds
-
-{"amount": float}
-
-POST
-
-/api/account/<id>/transfer
-
-Transfers funds to another A/C
-
-{"amount": float, "destination": int}
-
-Developed by Prateek Singh && Shivansh Sahu
+<p align="center">
+<i>Developed by <b>Prateek Singh</b> & <b>Shivansh Sahu</b></i>
+</p>
