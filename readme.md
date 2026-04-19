@@ -91,14 +91,19 @@ Open your terminal inside the MicroProject directory and run the following comma
 <i><b>Note:</b> We explicitly link the Windows socket libraries (ws2_32, wsock32) and enforce the C++17 standard.</i>
 
 Bash
+```
 g++ main.cpp -o backend -I ./include -lws2_32 -lwsock32 -std=c++17
+```
 (If g++ fails, use the absolute path: C:\mingw64\bin\g++.exe main.cpp ...)
 
 Step 2: Start the Server
 Run the generated executable to start listening for requests:
 
 Bash
+```
 ./backend.exe
+```
+
 <p>✅ You should see: <code>🚀 Core Banking API running on http://localhost:8080</code>. Keep this terminal open.</p>
 
 Step 3: Launch the Frontend
