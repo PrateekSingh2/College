@@ -6,75 +6,73 @@
     <title>Core Banking Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1f2937; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen font-sans selection:bg-blue-500 selection:text-white">
+<body class="bg-gray-50 text-gray-900 min-h-screen selection:bg-blue-200">
 
-    <div class="max-w-6xl mx-auto p-6">
-        <header class="flex justify-between items-center py-6 mb-8 border-b border-gray-800">
+    <header class="bg-white border-b border-gray-200 px-6 py-4 mb-8">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
-                    Bank Management System
-                </h1>
-                <p class="text-gray-400 text-sm mt-1">Enterprise Banking Infrastructure</p>
+                <h1 class="text-xl font-bold text-gray-900">Bank Management System</h1>
+                <p class="text-gray-500 text-sm">Internal Core Portal</p>
             </div>
-            <div id="statusIndicator" class="flex items-center space-x-2 text-sm text-green-400 bg-green-400/10 px-3 py-1 rounded-full border border-green-400/20">
-                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <div id="statusIndicator" class="flex items-center space-x-2 text-sm font-medium text-green-700 bg-green-50 px-3 py-1 rounded-md border border-green-200">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
                 <span>System Online</span>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-6xl mx-auto px-6 pb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             <div class="space-y-6 lg:col-span-1">
                 
-                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-xl">
-                    <h2 class="text-xl font-semibold mb-4 text-white">Open Account</h2>
+                <div class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+                    <h2 class="text-lg font-semibold border-b border-gray-100 pb-3 mb-4">Open Account</h2>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Account Holder Name</label>
-                            <input type="text" id="newName" placeholder="e.g. Name" 
-                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Account Holder Name</label>
+                            <input type="text" id="newName" placeholder="Enter full name" 
+                                class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
-                        <button onclick="createAccount()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-2 rounded-lg transition-all">
+                        <button onclick="createAccount()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors text-sm">
                             Create Account
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-xl">
-                    <h2 class="text-xl font-semibold mb-4 text-white">Transactions</h2>
+                <div class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
+                    <h2 class="text-lg font-semibold border-b border-gray-100 pb-3 mb-4">Transactions</h2>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Source Account Number</label>
-                            <input type="number" id="txAccNum" placeholder="1001" 
-                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Source Account No.</label>
+                            <input type="number" id="txAccNum" placeholder="e.g. 1001" 
+                                class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Amount (Rs.)</label>
-                            <input type="number" id="txAmount" placeholder="500.00" 
-                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Amount (Rs.)</label>
+                            <input type="number" id="txAmount" placeholder="0.00" 
+                                class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div class="flex space-x-3">
-                            <button onclick="handleTransaction('deposit')" class="flex-1 bg-green-600/20 text-green-400 hover:bg-green-600/30 border border-green-600/50 font-medium py-2 rounded-lg transition-all">
+                            <button onclick="handleTransaction('deposit')" class="flex-1 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 font-medium py-2 rounded-md transition-colors text-sm">
                                 Deposit
                             </button>
-                            <button onclick="handleTransaction('withdraw')" class="flex-1 bg-red-600/20 text-red-400 hover:bg-red-600/30 border border-red-600/50 font-medium py-2 rounded-lg transition-all">
+                            <button onclick="handleTransaction('withdraw')" class="flex-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 font-medium py-2 rounded-md transition-colors text-sm">
                                 Withdraw
                             </button>
                         </div>
-                        <hr class="border-gray-700 my-4">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Destination A/C (For Transfer)</label>
-                            <input type="number" id="destAccNum" placeholder="1002" 
-                                class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                        
+                        <div class="border-t border-gray-200 my-4 pt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Destination A/C (For Transfer)</label>
+                            <input type="number" id="destAccNum" placeholder="e.g. 1002" 
+                                class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-3">
+                            <button onclick="handleTransaction('transfer')" class="w-full bg-gray-800 hover:bg-gray-900 text-white font-medium py-2 px-4 rounded-md transition-colors text-sm">
+                                Transfer Funds
+                            </button>
                         </div>
-                        <button onclick="handleTransaction('transfer')" class="w-full bg-purple-600/20 text-purple-400 hover:bg-purple-600/30 border border-purple-600/50 font-medium py-2 rounded-lg transition-all">
-                            Transfer Funds
-                        </button>
                     </div>
                 </div>
 
@@ -82,28 +80,28 @@
 
             <div class="lg:col-span-2 space-y-6">
                 
-                <div class="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 shadow-xl flex items-end space-x-4">
+                <div class="bg-white border border-gray-200 rounded-lg p-5 shadow-sm flex items-end space-x-3">
                     <div class="flex-1">
-                        <label class="block text-xs font-medium text-gray-400 uppercase mb-1">Lookup Account</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Lookup Account</label>
                         <input type="number" id="searchAccNum" placeholder="Enter Account Number..." 
-                            class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-blue-500 transition-all">
+                            class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
-                    <button onclick="fetchAccountDetails()" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-all border border-gray-600">
+                    <button onclick="fetchAccountDetails()" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-6 rounded-md transition-colors text-sm shadow-sm">
                         Search
                     </button>
                 </div>
 
-                <div id="displayArea" class="bg-gray-900 border border-gray-800 rounded-xl p-8 min-h-[300px] flex flex-col justify-center items-center text-center">
-                    <svg class="w-16 h-16 text-gray-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                    <p class="text-gray-500">No account loaded. Search or create an account to view details.</p>
+                <div id="displayArea" class="bg-white border border-gray-200 rounded-lg p-8 min-h-[400px] flex flex-col justify-center items-center text-center shadow-sm">
+                    <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    <p class="text-gray-500 text-sm">No account loaded. Search or create an account to view details.</p>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-800 border border-gray-700 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center space-x-3 pointer-events-none">
-        <span id="toastIcon"></span>
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-16 opacity-0 transition-all duration-200 bg-gray-900 text-white px-5 py-3 rounded shadow-lg flex items-center space-x-3 pointer-events-none z-50">
+        <span id="toastIcon" class="text-sm"></span>
         <span id="toastMsg" class="text-sm font-medium"></span>
     </div>
 
@@ -115,9 +113,14 @@
             const toastMsg = document.getElementById('toastMsg');
             const toastIcon = document.getElementById('toastIcon');
             toastMsg.innerText = message;
-            toastIcon.innerHTML = type === 'success' ? '✅' : '❌';
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+            toastIcon.innerHTML = type === 'success' ? '✓' : '✕';
+            
+            // Adjust colors based on type if desired, keeping it simple here
+            toast.className = `fixed bottom-6 right-6 transform opacity-100 translate-y-0 transition-all duration-200 px-5 py-3 rounded shadow-lg flex items-center space-x-3 pointer-events-none z-50 ${type === 'success' ? 'bg-gray-900 text-white' : 'bg-red-600 text-white'}`;
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-16', 'opacity-0');
+            }, 3000);
         }
 
         async function createAccount() {
@@ -149,6 +152,8 @@
             if (!accNum) return;
 
             const display = document.getElementById('displayArea');
+            display.innerHTML = `<p class="text-gray-500 text-sm">Loading data...</p>`;
+
             try {
                 const [detailsRes, statementRes] = await Promise.all([
                     fetch(`${API_BASE}/account/${accNum}`),
@@ -156,7 +161,7 @@
                 ]);
 
                 if (!detailsRes.ok) {
-                    display.innerHTML = `<p class="text-red-400">Account ${accNum} not found.</p>`;
+                    display.innerHTML = `<p class="text-red-600 text-sm font-medium">Account ${accNum} not found.</p>`;
                     return;
                 }
 
@@ -165,54 +170,58 @@
                 
                 let statementHTML = '';
                 if (statementData.transactions && statementData.transactions.length > 0) {
-                    statementHTML = statementData.transactions.map(tx => `
-                        <tr class="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
-                            <td class="px-4 py-3">${tx.type}</td>
-                            <td class="px-4 py-3 font-mono text-${tx.type.includes('Deposit') ? 'green' : 'red'}-400">
-                                ${tx.amount.toFixed(2)}
-                            </td>
-                            <td class="px-4 py-3 font-mono text-gray-300">${tx.balanceAfter.toFixed(2)}</td>
-                        </tr>
-                    `).join('');
+                    statementHTML = statementData.transactions.map(tx => {
+                        const isDeposit = tx.type.toLowerCase().includes('deposit') || tx.type.toLowerCase().includes('received');
+                        return `
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="px-4 py-3 text-sm text-gray-700">${tx.type}</td>
+                                <td class="px-4 py-3 text-sm text-right ${isDeposit ? 'text-green-700' : 'text-gray-900'}">
+                                    ${isDeposit ? '+' : '-'} ${tx.amount.toFixed(2)}
+                                </td>
+                                <td class="px-4 py-3 text-sm text-right text-gray-500">${tx.balanceAfter.toFixed(2)}</td>
+                            </tr>
+                        `;
+                    }).join('');
                 } else {
-                    statementHTML = `<tr><td colspan="3" class="px-4 py-4 text-center text-gray-500">No transactions found.</td></tr>`;
+                    statementHTML = `<tr><td colspan="3" class="px-4 py-6 text-center text-gray-500 text-sm">No transactions found.</td></tr>`;
                 }
 
                 display.innerHTML = `
-                    <div class="w-full text-left bg-gray-800/50 rounded-xl p-8 border border-gray-700/50">
-                        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Account Holder</p>
-                        <h3 class="text-3xl font-bold text-white mb-6">${data.name}</h3>
+                    <div class="w-full text-left h-full flex flex-col">
                         
-                        <div class="grid grid-cols-2 gap-6 mb-8">
-                            <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
-                                <p class="text-xs text-gray-500 uppercase">Account Number</p>
-                                <p class="text-xl font-mono text-blue-400 mt-1">${data.accountNumber}</p>
+                        <div class="flex justify-between items-start mb-6 border-b border-gray-200 pb-6">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900">${data.name}</h3>
+                                <p class="text-sm text-gray-500 mt-1">Account No: <span class="font-medium text-gray-900">${data.accountNumber}</span></p>
                             </div>
-                            <div class="bg-gray-900 rounded-lg p-4 border border-gray-800">
-                                <p class="text-xs text-gray-500 uppercase">Available Balance</p>
-                                <p class="text-xl font-mono text-green-400 mt-1">Rs. ${data.balance.toFixed(2)}</p>
+                            <div class="text-right">
+                                <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Available Balance</p>
+                                <p class="text-2xl font-bold text-blue-600 mt-1">Rs. ${data.balance.toFixed(2)}</p>
                             </div>
                         </div>
 
-                        <h4 class="text-lg font-semibold text-white mb-4">Mini Statement</h4>
-                        <div class="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
-                            <table class="w-full text-left text-sm text-gray-400">
-                                <thead class="bg-gray-800/80 text-xs uppercase border-b border-gray-700">
-                                    <tr>
-                                        <th class="px-4 py-3">Transaction Type</th>
-                                        <th class="px-4 py-3">Amount (Rs.)</th>
-                                        <th class="px-4 py-3">Balance After</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${statementHTML}
-                                </tbody>
-                            </table>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Mini Statement</h4>
+                            <div class="border border-gray-200 rounded-md overflow-hidden">
+                                <table class="w-full text-left">
+                                    <thead class="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th class="px-4 py-2 text-xs font-semibold text-gray-600 uppercase">Transaction Type</th>
+                                            <th class="px-4 py-2 text-xs font-semibold text-gray-600 uppercase text-right">Amount (Rs.)</th>
+                                            <th class="px-4 py-2 text-xs font-semibold text-gray-600 uppercase text-right">Balance After</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${statementHTML}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 `;
             } catch (err) {
                 showToast('Failed to fetch details', 'error');
+                display.innerHTML = `<p class="text-red-600 text-sm font-medium">Connection error. Could not retrieve account details.</p>`;
             }
         }
 
