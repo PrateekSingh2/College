@@ -76,7 +76,6 @@ public:
         return res;
     }
 
-    // New: Generates the mini statement as a JSON array
     crow::json::wvalue getStatementJSON() const {
         crow::json::wvalue res;
         int startIdx = max(0, (int)transactionHistory.size() - 5);
@@ -138,7 +137,6 @@ public:
     }
 };
 
-// CORS Middleware
 struct AppCORS {
     struct context {};
     void before_handle(crow::request& req, crow::response& res, context& ctx) {}
@@ -153,7 +151,6 @@ int main() {
     Bank myBank;
     crow::App<AppCORS> app;
 
-    // Route: Create Account
     CROW_ROUTE(app, "/api/account").methods(crow::HTTPMethod::Post)
     ([&myBank](const crow::request& req){
         auto body = crow::json::load(req.body);
@@ -166,7 +163,6 @@ int main() {
         return crow::response(200, res);
     });
 
-    // Route: Get Account Details
     CROW_ROUTE(app, "/api/account/<int>").methods(crow::HTTPMethod::Get)
     ([&myBank](int accNum){
         Account* acc = myBank.getAccount(accNum);
@@ -174,7 +170,6 @@ int main() {
         return crow::response(200, acc->getDetailsJSON());
     });
 
-    // Route: Get Mini Statement
     CROW_ROUTE(app, "/api/account/<int>/statement").methods(crow::HTTPMethod::Get)
     ([&myBank](int accNum){
         Account* acc = myBank.getAccount(accNum);
@@ -182,7 +177,6 @@ int main() {
         return crow::response(200, acc->getStatementJSON());
     });
 
-    // Route: Deposit
     CROW_ROUTE(app, "/api/account/<int>/deposit").methods(crow::HTTPMethod::Post)
     ([&myBank](const crow::request& req, int accNum){
         auto body = crow::json::load(req.body);
@@ -191,7 +185,6 @@ int main() {
         return crow::response(400, "Deposit failed");
     });
 
-    // Route: Withdraw
     CROW_ROUTE(app, "/api/account/<int>/withdraw").methods(crow::HTTPMethod::Post)
     ([&myBank](const crow::request& req, int accNum){
         auto body = crow::json::load(req.body);
@@ -200,7 +193,6 @@ int main() {
         return crow::response(400, "Insufficient funds or invalid account");
     });
 
-    // Route: Transfer
     CROW_ROUTE(app, "/api/account/<int>/transfer").methods(crow::HTTPMethod::Post)
     ([&myBank](const crow::request& req, int accNum){
         auto body = crow::json::load(req.body);
@@ -209,7 +201,6 @@ int main() {
         return crow::response(400, "Transfer failed");
     });
 
-    // Preflight OPTIONS requests for CORS
     CROW_ROUTE(app, "/api/account").methods(crow::HTTPMethod::Options)([]() { return crow::response(204); });
     CROW_ROUTE(app, "/api/account/<int>").methods(crow::HTTPMethod::Options)([](int) { return crow::response(204); });
     CROW_ROUTE(app, "/api/account/<int>/statement").methods(crow::HTTPMethod::Options)([](int) { return crow::response(204); });
