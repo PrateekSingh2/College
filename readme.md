@@ -1,6 +1,5 @@
 <div align="center">
   <h1>🏦 Vault OS</h1>
-  <p><b>Enterprise-Grade Core Banking Microservice</b></p>
   
   <a href="https://crowcpp.org/"><img src="https://img.shields.io/badge/C%2B%2B17-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++17"></a>
   <a href="https://crowcpp.org/"><img src="https://img.shields.io/badge/Crow-1A1A1A?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="Crow Framework"></a>
